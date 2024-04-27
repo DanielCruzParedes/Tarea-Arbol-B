@@ -26,8 +26,12 @@ cframe::~cframe()
 void cframe::on_guardarBtn_clicked()
 {
     // Guardar info en el nodo disponible
-    int data = stoi( ui->datoInput->text().toStdString() );
-    int size = sizeof(data); // o pedir un input del size
+    string data = ui->datoInput->text().toStdString();
+
+    listaRandom.insertarEnLibre(data);
+    listaOrdenada.insertarEnLibre(data);
+
+    ui->datoInput->clear();
 }
 
 

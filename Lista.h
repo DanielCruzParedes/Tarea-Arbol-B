@@ -11,7 +11,7 @@ public:
     ~Lista();
     void insertarAlFrente( const Tipo & );
     void insertarEnPenultimo(const Tipo & );
-    void insertarAlFinal( const Tipo & );
+    void insertarAlFinal( int size );
     bool eliminarDelFrente( Tipo & );
     bool eliminarDelPenultimo( Tipo & );
     bool eliminarDelFinal( Tipo & );
@@ -25,14 +25,17 @@ public:
 
         while (actual != nullptr) {
             // Loopear hasta encontrar un nodo que este lleno | getEstado() = false
-            if (!actual->getEstado()) {
+            if (actual->getEstado() == false) {
                 libre = actual;
-                break;
+                cout << "[actualizarLibre] Se actualizo libre.\n";
+                return;
             }
+            actual = actual->siguientePtr;
         }
 
         // No se encontraron libres
         libre = nullptr;
+        cout << "[actualizarLibre] Libre ahora es null\n";
     };
 
     /*
@@ -40,20 +43,59 @@ public:
      * Retorna true si la operacion se hizo con exito.
      */
     bool insertarEnLibre(Tipo data) {
-        if (libre == nullptr)
+        if (libre == nullptr) {
+            cout << "[insertFree] Libre is null.\n";
             return false;
+        }
 
-        libre->setDato(data);
-        libre->setEstado(true);
-        actualizarLibre();
+        if (libre->getSize() >= sizeof(data)) {
+            libre->setDato(data);
+            libre->setEstado(true);
+            libre->setApuntador(nullptr);
+            actualizarLibre();
+            return true;
+        }
+
+        cout << "No hay suficiente size. Size de libre:" <<libre->getSize() <<  ". Buscando nuevo nodo para guardar: " << data << "...\n";
+
+
+        nodo<Tipo> *encontrado = buscarNodoLibre(sizeof(data));
+
+        if (encontrado == nullptr) return false;
+
+        cout << "encontrado con size: " << encontrado->getSize() << "\n";
+        encontrado->setDato(data);
+        encontrado->setEstado(true);
+        encontrado->setApuntador(nullptr);
         return true;
+        actualizarLibre();
+
     };
+
+
+    /*
+     * Busca un nodo libre con tamano mayor o igual al especificado
+     */
+    nodo<Tipo>* buscarNodoLibre(int size) {
+        nodo<Tipo> *act = primeroPtr;
+
+        while (act != nullptr) {
+           if (act->getEstado() == false && act->getSize() >= size) return act;
+
+           act = act->siguientePtr;
+        }
+
+        return nullptr;
+    }
 
     /*
      * Ordena los datos de la lista en orden ascendente.
      */
     void ordenarLista() {
-        // 1 - 3 - 4 - 2 - null;
+        cout << "ANTES DE ORDENAR: \n";
+        imprimir();
+
+        cout << "=====================================\n";
 
         nodo<Tipo> *nodoI = primeroPtr;
 
@@ -71,7 +113,7 @@ public:
 
                 // Ordenar si es mayor
                 if (actual->getSize() > actual->getSiguientePtr()->getSize() ) {
-                    cout << "Encontrado size menor!\n";
+                    cout << "Encontrado size menor!\nz";
                     Tipo actDato = actual->getDato();
                     nodo<Tipo> *apuntador = actual->apuntador;
                     bool actEstado = actual->getEstado();
@@ -99,10 +141,12 @@ public:
 
             nodoI = nodoI->siguientePtr;
         }
+        imprimir();
+        cout << "=====================================\n";
     };
 private:
     nodo< Tipo > *primeroPtr;
-    nodo< Tipo > *crearNuevoNodo( const Tipo &size ); //crear un nuevo nodo con tamaño ya definido
+    nodo< Tipo > *crearNuevoNodo( int size ); //crear un nuevo nodo con tamaño ya definido
     nodo< Tipo > *ultimoPtr;
     nodo< Tipo > *libre;
 
@@ -111,7 +155,7 @@ private:
 // constructor predeterminado
 template< typename Tipo >
 Lista< Tipo >::Lista()
-    : primeroPtr( 0 ), ultimoPtr( 0 ){ }
+    : primeroPtr( 0 ), ultimoPtr( 0 ){this->libre = nullptr;}
 
 // destructor
 template< typename Tipo >
@@ -166,8 +210,9 @@ void Lista< Tipo >::insertarEnPenultimo( const Tipo &valor ){
 }
 
 template< typename Tipo >
-void Lista< Tipo >::insertarAlFinal( const Tipo &valor ){
-    nodo< Tipo > *nuevoPtr = crearNuevoNodo( valor );
+void Lista< Tipo >::insertarAlFinal( int size ){
+    // Insertar un nodo del size especificado al final
+    nodo< Tipo > *nuevoPtr = crearNuevoNodo( size );
     if ( estaVacia() )
         primeroPtr = ultimoPtr = nuevoPtr;
     else{
@@ -250,7 +295,7 @@ bool Lista< Tipo >::estaVacia() const{
 } // fin de la funcion estaVacia
 
 template< typename Tipo >
-nodo< Tipo > *Lista< Tipo >::crearNuevoNodo(const Tipo &size ){
+nodo< Tipo > *Lista< Tipo >::crearNuevoNodo( int size ){
     return new nodo< Tipo >( size );
 }
 

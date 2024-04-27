@@ -42,7 +42,7 @@ template<typename Tipo>
 nodo<Tipo>::nodo(int size)
 {
     this->size = size;
-    this->dato = NULL;
+    this->dato = "";
     this->estado = false;
     this->siguientePtr = nullptr;
 }

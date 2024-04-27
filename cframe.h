@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include "Lista.h"
+#include <string>
+
+using std::string;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class cframe; }
@@ -23,7 +26,7 @@ private slots:
 
 private:
     Ui::cframe *ui;
-    Lista<int> listaRandom;
-    Lista<int> listaOrdenada;
+    Lista<string> listaRandom;
+    Lista<string> listaOrdenada;
 };
 #endif // CFRAME_H
