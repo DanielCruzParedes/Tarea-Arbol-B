@@ -1,6 +1,8 @@
 #ifndef NODO_H
 #define NODO_H
 
+#include <iostream>
+
 template< typename Tipo > class Lista;
 template< typename Tipo >
 class nodo{
@@ -23,11 +25,16 @@ public:
     nodo<Tipo> *getSiguientePtr() const;
     void setSiguientePtr(nodo<Tipo> *newSiguientePtr);
 
+    void setApuntador(nodo<Tipo> *objetivo) {
+        this->apuntador = objetivo;
+    }
+
 
 private:
     int size; //Tamaño asignado al nodo
     bool estado; //true = lleno ; false = vacio
     nodo<Tipo> *siguientePtr; //Pointer que apunta al siguiente nodo vacio (CREO)
+    nodo<Tipo> *apuntador = nullptr;
     Tipo dato;
 };
 
@@ -35,7 +42,7 @@ template<typename Tipo>
 nodo<Tipo>::nodo(int size)
 {
     this->size = size;
-    this->dato = nullptr;
+    this->dato = NULL;
     this->estado = false;
     this->siguientePtr = nullptr;
 }
@@ -87,7 +94,6 @@ void nodo<Tipo>::setDato(const Tipo &newDato)
 {
     dato = newDato;
 }
-
 
 //// constructor
 //template< typename Tipo >

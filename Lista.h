@@ -17,10 +17,94 @@ public:
     bool eliminarDelFinal( Tipo & );
     bool estaVacia() const;
     void imprimir() const;
+
+    // Simulador de manejo de memoria en nodos
+
+    void actualizarLibre() {
+        nodo<Tipo> *actual = primeroPtr;
+
+        while (actual != nullptr) {
+            // Loopear hasta encontrar un nodo que este lleno | getEstado() = false
+            if (!actual->getEstado()) {
+                libre = actual;
+                break;
+            }
+        }
+
+        // No se encontraron libres
+        libre = nullptr;
+    };
+
+    /*
+     * Inserta el dato especificado en el nodo marcado como libre.
+     * Retorna true si la operacion se hizo con exito.
+     */
+    bool insertarEnLibre(Tipo data) {
+        if (libre == nullptr)
+            return false;
+
+        libre->setDato(data);
+        libre->setEstado(true);
+        actualizarLibre();
+        return true;
+    };
+
+    /*
+     * Ordena los datos de la lista en orden ascendente.
+     */
+    void ordenarLista() {
+        // 1 - 3 - 4 - 2 - null;
+
+        nodo<Tipo> *nodoI = primeroPtr;
+
+        // Iterar toda la lista de nodos
+        while (nodoI != nullptr) {
+            nodo<Tipo> *actual = nodoI;
+
+            while (actual != nullptr) {
+                if (actual->siguientePtr == nullptr) {
+                    break;
+                }
+
+                cout << "Actual: " << actual->getSize() << "\n";
+                cout << "Sig: " << actual->siguientePtr->getSize() << "\n";
+
+                // Ordenar si es mayor
+                if (actual->getSize() > actual->getSiguientePtr()->getSize() ) {
+                    cout << "Encontrado size menor!\n";
+                    Tipo actDato = actual->getDato();
+                    nodo<Tipo> *apuntador = actual->apuntador;
+                    bool actEstado = actual->getEstado();
+                    int size = actual->getSize();
+
+                    nodo<Tipo> *sig = actual->siguientePtr;
+
+                    // Reemplazar los valores actuales del nodo actual
+                    actual->setDato( sig->getDato() );
+                    actual->setSize( sig->getSize() );
+                    actual->setEstado( sig->getEstado() );
+                    actual->setApuntador( sig->apuntador );
+
+                    // Reemplazar los valores del siguiente nodo
+                    nodo<Tipo> *siguiente = actual->siguientePtr;
+
+                    siguiente->setDato(actDato);
+                    siguiente->setApuntador(apuntador);
+                    siguiente->setEstado(actEstado);
+                    siguiente->setSize(size);
+                }
+
+                actual = actual->siguientePtr;
+            }
+
+            nodoI = nodoI->siguientePtr;
+        }
+    };
 private:
     nodo< Tipo > *primeroPtr;
     nodo< Tipo > *crearNuevoNodo( const Tipo &size ); //crear un nuevo nodo con tamaño ya definido
     nodo< Tipo > *ultimoPtr;
+    nodo< Tipo > *libre;
 
 };
 
@@ -46,7 +130,6 @@ Lista< Tipo >::~Lista(){
     }
     cout << "Se destruyeron todos los nodos\n\n";
 }
-
 
 template< typename Tipo >
 void Lista< Tipo >::insertarAlFrente( const Tipo &valor ){
@@ -84,13 +167,17 @@ void Lista< Tipo >::insertarEnPenultimo( const Tipo &valor ){
 
 template< typename Tipo >
 void Lista< Tipo >::insertarAlFinal( const Tipo &valor ){
-    nodo< Tipo > *nuevoPtr = obtenerNuevoNodo( valor );
+    nodo< Tipo > *nuevoPtr = crearNuevoNodo( valor );
     if ( estaVacia() )
         primeroPtr = ultimoPtr = nuevoPtr;
     else{
         ultimoPtr->siguientePtr = nuevoPtr;
         ultimoPtr = nuevoPtr;
     }
+
+    cout << "[insertarFinal] Actualizando libre...\n";
+    actualizarLibre();
+    cout << "[insertarFinal] Done!\n";
 }
 
 template< typename Tipo >
@@ -177,7 +264,7 @@ void Lista< Tipo >::imprimir() const{
     nodo< Tipo > *actualPtr = primeroPtr;
     cout << "La lista es: ";
     while ( actualPtr != 0 ) {
-        cout << actualPtr->dato << "\t";
+        cout << actualPtr->dato << "| Size: " << actualPtr->getSize() << "\t";
         actualPtr = actualPtr->siguientePtr;
     }
     cout << "\n\n";
