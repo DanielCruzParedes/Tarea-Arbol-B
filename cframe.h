@@ -5,6 +5,7 @@
 #include "Lista.h"
 #include <nodo.h>
 #include <string>
+#include <vector>
 
 using std::string;
 
@@ -26,7 +27,7 @@ private slots:
     void on_Btn_Crear_clicked();
 
     void mostrarTWEspacios();
-    void mostrarTWDatos();
+    void mostrarTWAcciones();
 
 
 private:
@@ -34,6 +35,11 @@ private:
     Lista<string> listaRandom;
     Lista<string> listaOrdenada;
 
+    Lista<string> listaAccionesRandom;
+    Lista<string> listaAccionesOrdenada;
     nodo<string> *actPtr;
+
+    std::vector<string> mensajesRandom;
+    std::vector<string> mensajesOrdenados;
 };
 #endif // CFRAME_H

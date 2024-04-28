@@ -3,6 +3,7 @@
 #include <nodo.h>
 #include <string>
 #include <QMessageBox>
+#include <vector>
 
 using std::stoi;
 
@@ -28,7 +29,7 @@ void cframe::on_Btn_Guardar_clicked()
 {
     // Guardar info en el nodo disponible
     string data = ui->datoInput->text().toStdString();
-
+    cout << "Tamanio del dato es: " << sizeof(data);
     listaRandom.insertarEnLibre(data);
     listaOrdenada.insertarEnLibre(data);
 
@@ -37,6 +38,44 @@ void cframe::on_Btn_Guardar_clicked()
     ui->tw_Acciones->setColumnCount(2);
     ui->tw_Acciones->setHorizontalHeaderLabels(QStringList()<<"Lista Random"<<"Lista Aleatorio");
     ui->tw_Acciones->setRowCount(listaOrdenada.getCantidadDeNodos());
+
+    actPtr = listaRandom.primeroPtr;
+    //Guardar en vector de mensajes random
+    while ( actPtr != 0 ) {
+        if(actPtr->getDato() == data){
+            int sizeDelNodo = actPtr->getSize();
+            int sizeDelDato = sizeof(actPtr->getDato());
+            int desperdicio = sizeDelNodo - sizeDelDato;
+            string mensajito;
+            mensajito.append("Usuario ingresó: " + std::to_string(sizeDelDato) +
+                             ".\nUtilizó: " + std::to_string(sizeDelNodo) +
+                             "\nDesperdició: " + std::to_string(desperdicio));
+            mensajesRandom.push_back(mensajito);
+            break;
+        }else{
+            actPtr = actPtr->getSiguientePtr();
+        }
+    }
+
+    actPtr = listaOrdenada.primeroPtr;
+    //Guardar en vector de mensajes ordenados
+    while ( actPtr != 0 ) {
+        if(actPtr->getDato() == data){
+            int sizeDelNodo = actPtr->getSize();
+            int sizeDelDato = sizeof(actPtr->getDato());
+            int desperdicio = sizeDelNodo - sizeDelDato;
+            string mensajito;
+            mensajito.append("Usuario ingresó: " + std::to_string(sizeDelDato) +
+                             ".\nUtilizó: " + std::to_string(sizeDelNodo) +
+                             "\nDesperdició: " + std::to_string(desperdicio));
+            mensajesOrdenados.push_back(mensajito);
+            break;
+        }else{
+            actPtr = actPtr->getSiguientePtr();
+        }
+    }
+
+    mostrarTWAcciones();
 }
 
 
@@ -86,21 +125,16 @@ void cframe::mostrarTWEspacios()
 void cframe::mostrarTWAcciones()
 {
     //Mostrar en la columna random
-    actPtr = listaRandom.primeroPtr;
-    int i = 0;
-    while ( actPtr != 0 ) {
-        ui->tw_Acciones->setItem(i,0, new QTableWidgetItem(QString::number(actPtr->getSize())));
-        actPtr = actPtr->getSiguientePtr();
-        i++;
+    for(uint i = 0; i < mensajesRandom.size(); i++){
+        ui->tw_Acciones->setItem(i,0, new QTableWidgetItem(QString::fromStdString(mensajesRandom[i])));
+    }
+    //Mostrar en la columna ordenada
+    for(uint i = 0; i < mensajesOrdenados.size(); i++){
+        ui->tw_Acciones->setItem(i,1, new QTableWidgetItem(QString::fromStdString(mensajesOrdenados[i])));
     }
 
-    //Mostrar en la columna ordenada
-    actPtr = listaOrdenada.primeroPtr;
-    int j = 0;
-    while ( actPtr != 0 ) {
-        ui->tw_Espacios->setItem(j,1, new QTableWidgetItem(QString::number(actPtr->getSize())));
-        actPtr = actPtr->getSiguientePtr();
-        j++;
-    }
+
 }
+
+
 

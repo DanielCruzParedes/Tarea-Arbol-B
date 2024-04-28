@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <QMessageBox>
+#include <qmessagebox.h>
 using std::cout;
 
 template< typename Tipo >
@@ -48,10 +49,12 @@ public:
     bool insertarEnLibre(Tipo data) {
         if (libre == nullptr) {
             cout << "[insertFree] Libre is null.\n";
+            QMessageBox::information(this, "Información", "No hay nodos disponibles.");
             return false;
         }
 
         if (libre->getSize() >= sizeof(data)) {
+            cout << "Tamanio del dato es: " << sizeof (data);
             libre->setDato(data);
             libre->setEstado(true);
             libre->setApuntador(nullptr);
