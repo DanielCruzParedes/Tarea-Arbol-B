@@ -20,9 +20,10 @@ public:
     ~cframe();
 
 private slots:
-    void on_guardarBtn_clicked();
 
-    void on_pushButton_pressed();
+    void on_Btn_Guardar_clicked();
+
+    void on_Btn_Crear_clicked();
 
 private:
     Ui::cframe *ui;

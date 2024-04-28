@@ -17,10 +17,10 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>30</y>
-      <width>201</width>
-      <height>16</height>
+      <x>30</x>
+      <y>20</y>
+      <width>321</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -37,10 +37,10 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>530</x>
       <y>30</y>
-      <width>111</width>
-      <height>16</height>
+      <width>261</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -58,9 +58,9 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>60</y>
-      <width>47</width>
-      <height>13</height>
+      <y>80</y>
+      <width>141</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -71,18 +71,18 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>80</y>
-      <width>113</width>
+      <y>120</y>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="guardarBtn">
+   <widget class="QPushButton" name="Btn_Guardar">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>140</y>
-      <width>80</width>
+      <x>40</x>
+      <y>150</y>
+      <width>101</width>
       <height>21</height>
      </rect>
     </property>
@@ -95,35 +95,45 @@
      <rect>
       <x>540</x>
       <y>70</y>
-      <width>47</width>
-      <height>13</height>
+      <width>111</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Tamaño</string>
+     <string>Tamaño:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="sizeInput">
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>90</y>
-      <width>113</width>
+      <y>110</y>
+      <width>121</width>
       <height>21</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Btn_Crear">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>130</y>
-      <width>80</width>
-      <height>21</height>
+      <x>540</x>
+      <y>150</y>
+      <width>111</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>Crear Nodo</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="TW_Mostrar">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>190</y>
+      <width>451</width>
+      <height>361</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -133,7 +143,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

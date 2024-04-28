@@ -22,8 +22,7 @@ cframe::~cframe()
 
 }
 
-
-void cframe::on_guardarBtn_clicked()
+void cframe::on_Btn_Guardar_clicked()
 {
     // Guardar info en el nodo disponible
     string data = ui->datoInput->text().toStdString();
@@ -32,10 +31,13 @@ void cframe::on_guardarBtn_clicked()
     listaOrdenada.insertarEnLibre(data);
 
     ui->datoInput->clear();
+
+    ui->TW_Mostrar->setColumnCount(2);
+    ui->TW_Mostrar->setHorizontalHeaderLabels(QStringList()<<"Lista Ordenada"<<"Lista Random");
 }
 
 
-void cframe::on_pushButton_pressed()
+void cframe::on_Btn_Crear_clicked()
 {
     int nodeSize = stoi( ui->sizeInput->text().toStdString() );
     listaRandom.insertarAlFinal(nodeSize);

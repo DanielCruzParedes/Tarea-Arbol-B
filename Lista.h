@@ -154,14 +154,14 @@ private:
 
 // constructor predeterminado
 template< typename Tipo >
-Lista< Tipo >::Lista()
-    : primeroPtr( 0 ), ultimoPtr( 0 ){this->libre = nullptr;}
+Lista< Tipo >::Lista(): primeroPtr( 0 ), ultimoPtr( 0 ){
+    this->libre = nullptr;
+}
 
 // destructor
 template< typename Tipo >
 Lista< Tipo >::~Lista(){
-    if ( !estaVacia() )
-    {
+    if ( !estaVacia() ){
         cout << "Destruyendo nodos ...\n";
         nodo<Tipo> *actualPtr = primeroPtr;
         nodo<Tipo> *tempPtr;
