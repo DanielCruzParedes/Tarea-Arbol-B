@@ -1,6 +1,8 @@
 #include "cframe.h"
 #include "ui_cframe.h"
+#include <nodo.h>
 #include <string>
+#include <QMessageBox>
 
 using std::stoi;
 
@@ -32,8 +34,9 @@ void cframe::on_Btn_Guardar_clicked()
 
     ui->datoInput->clear();
 
-    ui->TW_Mostrar->setColumnCount(2);
-    ui->TW_Mostrar->setHorizontalHeaderLabels(QStringList()<<"Lista Ordenada"<<"Lista Random");
+    ui->tw_Acciones->setColumnCount(2);
+    ui->tw_Acciones->setHorizontalHeaderLabels(QStringList()<<"Lista Random"<<"Lista Aleatorio");
+    ui->tw_Acciones->setRowCount(listaOrdenada.getCantidadDeNodos());
 }
 
 
@@ -46,6 +49,58 @@ void cframe::on_Btn_Crear_clicked()
     listaOrdenada.ordenarLista();
 
     ui->sizeInput->clear();
-    // TODO: Mostrar una alerta de que se agrego el nodo
+    listaOrdenada.sumarUnoACantidadNodos();
+    listaRandom.sumarUnoACantidadNodos();
+
+    QMessageBox::information(this,"Exito","Nodo creado con exito.");
+
+    //Que aparezcan en los table widget
+    ui->tw_Espacios->setColumnCount(2);
+    ui->tw_Espacios->setHorizontalHeaderLabels(QStringList()<<"Lista Random"<<"Lista Ordenada");
+    ui->tw_Espacios->setRowCount(listaOrdenada.getCantidadDeNodos());
+    mostrarTWEspacios();
+
+}
+
+void cframe::mostrarTWEspacios()
+{
+    //Mostrar en la columna random
+    actPtr = listaRandom.primeroPtr;
+    int i = 0;
+    while ( actPtr != 0 ) {
+        ui->tw_Espacios->setItem(i,0, new QTableWidgetItem(QString::number(actPtr->getSize())));
+        actPtr = actPtr->getSiguientePtr();
+        i++;
+    }
+
+    //Mostrar en la columna ordenada
+    actPtr = listaOrdenada.primeroPtr;
+    int j = 0;
+    while ( actPtr != 0 ) {
+        ui->tw_Espacios->setItem(j,1, new QTableWidgetItem(QString::number(actPtr->getSize())));
+        actPtr = actPtr->getSiguientePtr();
+        j++;
+    }
+}
+
+void cframe::mostrarTWAcciones()
+{
+    //Mostrar en la columna random
+    actPtr = listaRandom.primeroPtr;
+    int i = 0;
+    while ( actPtr != 0 ) {
+        ui->tw_Acciones->setItem(i,0, new QTableWidgetItem(QString::number(actPtr->getSize())));
+        actPtr = actPtr->getSiguientePtr();
+        i++;
+    }
+
+    //Mostrar en la columna ordenada
+    actPtr = listaOrdenada.primeroPtr;
+    int j = 0;
+    while ( actPtr != 0 ) {
+        ui->tw_Espacios->setItem(j,1, new QTableWidgetItem(QString::number(actPtr->getSize())));
+        actPtr = actPtr->getSiguientePtr();
+        j++;
+    }
 }
 

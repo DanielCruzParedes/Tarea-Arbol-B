@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Lista.h"
+#include <nodo.h>
 #include <string>
 
 using std::string;
@@ -22,12 +23,17 @@ public:
 private slots:
 
     void on_Btn_Guardar_clicked();
-
     void on_Btn_Crear_clicked();
+
+    void mostrarTWEspacios();
+    void mostrarTWDatos();
+
 
 private:
     Ui::cframe *ui;
     Lista<string> listaRandom;
     Lista<string> listaOrdenada;
+
+    nodo<string> *actPtr;
 };
 #endif // CFRAME_H

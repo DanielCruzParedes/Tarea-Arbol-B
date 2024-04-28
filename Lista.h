@@ -1,11 +1,14 @@
 #ifndef LISTA_H
 #define LISTA_H
 #include <nodo.h>
+
 #include <iostream>
+#include <QMessageBox>
 using std::cout;
 
 template< typename Tipo >
 class Lista{
+    friend class cframe;
 public:
     Lista();
     ~Lista();
@@ -144,17 +147,21 @@ public:
         imprimir();
         cout << "=====================================\n";
     };
+    int getCantidadDeNodos();
+    void sumarUnoACantidadNodos();
+
 private:
     nodo< Tipo > *primeroPtr;
     nodo< Tipo > *crearNuevoNodo( int size ); //crear un nuevo nodo con tamaño ya definido
     nodo< Tipo > *ultimoPtr;
     nodo< Tipo > *libre;
+    int cantidadDeNodos;
 
 };
 
 // constructor predeterminado
 template< typename Tipo >
-Lista< Tipo >::Lista(): primeroPtr( 0 ), ultimoPtr( 0 ){
+Lista< Tipo >::Lista(): primeroPtr( 0 ), ultimoPtr( 0 ), cantidadDeNodos( 0 ){
     this->libre = nullptr;
 }
 
@@ -299,6 +306,18 @@ nodo< Tipo > *Lista< Tipo >::crearNuevoNodo( int size ){
     return new nodo< Tipo >( size );
 }
 
+template< typename Tipo >
+int Lista< Tipo >::getCantidadDeNodos()
+{
+    return cantidadDeNodos;
+}
+
+template<typename Tipo>
+void Lista<Tipo>::sumarUnoACantidadNodos()
+{
+    cantidadDeNodos++;
+}
+
 
 template< typename Tipo >
 void Lista< Tipo >::imprimir() const{
@@ -310,6 +329,7 @@ void Lista< Tipo >::imprimir() const{
     cout << "La lista es: ";
     while ( actualPtr != 0 ) {
         cout << actualPtr->dato << "| Size: " << actualPtr->getSize() << "\t";
+
         actualPtr = actualPtr->siguientePtr;
     }
     cout << "\n\n";
