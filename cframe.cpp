@@ -81,23 +81,30 @@ void cframe::on_Btn_Guardar_clicked()
 
 void cframe::on_Btn_Crear_clicked()
 {
+
     int nodeSize = stoi( ui->sizeInput->text().toStdString() );
-    listaRandom.insertarAlFinal(nodeSize);
-    listaOrdenada.insertarAlFinal(nodeSize);
 
-    listaOrdenada.ordenarLista();
+    if(nodeSize>0){
+        listaRandom.insertarAlFinal(nodeSize);
+        listaOrdenada.insertarAlFinal(nodeSize);
 
-    ui->sizeInput->clear();
-    listaOrdenada.sumarUnoACantidadNodos();
-    listaRandom.sumarUnoACantidadNodos();
+        listaOrdenada.ordenarLista();
 
-    QMessageBox::information(this,"Exito","Nodo creado con exito.");
+        ui->sizeInput->clear();
+        listaOrdenada.sumarUnoACantidadNodos();
+        listaRandom.sumarUnoACantidadNodos();
 
-    //Que aparezcan en los table widget
-    ui->tw_Espacios->setColumnCount(2);
-    ui->tw_Espacios->setHorizontalHeaderLabels(QStringList()<<"Lista Random"<<"Lista Ordenada");
-    ui->tw_Espacios->setRowCount(listaOrdenada.getCantidadDeNodos());
-    mostrarTWEspacios();
+        QMessageBox::information(this,"Exito","Nodo creado con exito.");
+
+        //Que aparezcan en los table widget
+        ui->tw_Espacios->setColumnCount(2);
+        ui->tw_Espacios->setHorizontalHeaderLabels(QStringList()<<"Lista Random"<<"Lista Ordenada");
+        ui->tw_Espacios->setRowCount(listaOrdenada.getCantidadDeNodos());
+        mostrarTWEspacios();
+    }else{
+        QMessageBox::information(this,"Error","Debe ingresar tamano positivo");
+
+    }
 
 }
 

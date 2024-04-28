@@ -49,7 +49,7 @@ public:
     bool insertarEnLibre(Tipo data) {
         if (libre == nullptr) {
             cout << "[insertFree] Libre is null.\n";
-            QMessageBox::information(this, "Información", "No hay nodos disponibles.");
+            //QMessageBox::information(this, "Información", "No hay nodos disponibles.");
             return false;
         }
 
